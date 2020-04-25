@@ -1,6 +1,18 @@
-FROM balenalib/intel-edison-node:13.12-sid
+FROM balenalib/intel-edison-ubuntu-node:6-xenial-build-20181029
+#FROM balenalib/intel-edison-ubuntu-node:6.17.1-cosmic-build
+#FROM balenalib/intel-edison-ubuntu-node:8.17-bionic
+#FROM balenalib/intel-edison-ubuntu-node:13.12-bionic
 
-RUN install_packages wget rsync gnupg2
+RUN install_packages python software-properties-common swig patch cmake build-essential git build-essential swig3.0 python-dev nodejs-dev cmake libjson-c-dev
+RUN sudo add-apt-repository ppa:mraa/mraa && \
+    sudo apt-get update
+RUN install_packages libmraa1 libmraa-dev libmraa-java python-mraa python3-mraa node-mraa mraa-tools wget rsync gnupg2
+
+# This is madness... but doesn't work
+# https://github.com/eclipse/mraa/blob/master/docs/building.md#javascript-bindings-for-nodejs-700
+#RUN wget -O /tmp/0001-Add-Node-7.x-aka-V8-5.2-support.patch https://git.yoctoproject.org/cgit.cgi/poky/plain/meta/recipes-devtools/swig/swig/0001-Add-Node-7.x-aka-V8-5.2-support.patch && \
+#    cd /usr/share/swig3.0 && \
+#    patch -p2 < /tmp/0001-Add-Node-7.x-aka-V8-5.2-support.patch
 
 #ENV MRAAVERSION v1.3.0  
 #RUN git clone https://github.com/intel-iot-devkit/mraa.git && \  
@@ -18,7 +30,6 @@ RUN tar -xzf /tmp/s6-overlay-amd64.tar.gz -C /tmp/s6-overlay-root/
 
 # Workaround https://github.com/just-containers/s6-overlay#bin-and-sbin-are-symlinks
 RUN rsync -av --ignore-existing /tmp/s6-overlay-root/ /
-RUN ${CONTAINER_APP_PATH}/setup_env.sh
 COPY s6-overlay-init/ /tmp/s6-etc/
 RUN rsync -av --ignore-existing /tmp/s6-etc/ /etc/
 # s6-fdholderd active by default
@@ -26,10 +37,14 @@ RUN s6-rmrf /etc/s6/services/s6-fdholderd/down
 
 # Add app
 ADD . /usr/src/app/
+RUN cd /usr/src/app && npm install && npm list
 RUN chmod +x /usr/src/app/run_main.sh
 
 RUN useradd -r -d /usr/src/app -c "node Daemon" -s /sbin/nologin --user-group node
 
-#EXPOSE 888
+#EXPOSE 8888
 
-ENTRYPOINT ['']
+USER root
+ENV container docker
+ENV S6_KEEP_ENV 1
+ENTRYPOINT ["/init"]
