@@ -1,0 +1,18 @@
+{
+  "name": "xdk-iot-i2c",
+  "description": "",
+  "version": "0.0.0",
+  "main": "main.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "license": "BSD-3-Clause",
+  "private": true,
+  "scripts": {
+    "start": "node main.js"
+  },
+  "dependencies": {
+    "q": "latest",
+    "mraa": "^1.1.1"
+  }
+}
