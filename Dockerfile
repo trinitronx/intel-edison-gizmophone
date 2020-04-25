@@ -30,17 +30,18 @@ RUN tar -xzf /tmp/s6-overlay-x86.tar.gz -C /tmp/s6-overlay-root/
 
 # Workaround https://github.com/just-containers/s6-overlay#bin-and-sbin-are-symlinks
 RUN rsync -av --ignore-existing /tmp/s6-overlay-root/ /
-COPY s6-overlay-init/ /tmp/s6-etc/
+COPY docker/s6-overlay-init/ /tmp/s6-etc/
 RUN rsync -av --ignore-existing /tmp/s6-etc/ /etc/
 # s6-fdholderd active by default
 RUN s6-rmrf /etc/s6/services/s6-fdholderd/down
+
+COPY docker/etc/udev/rules.d/* /etc/udev/rules.d/
+RUN /usr/sbin/adduser --system --ingroup i2c --home /usr/src/app --shell /sbin/nologin node
 
 # Add app
 ADD . /usr/src/app/
 RUN cd /usr/src/app && npm install && npm list
 RUN chmod +x /usr/src/app/run_main.sh
-
-RUN useradd -r -d /usr/src/app -c "node Daemon" -s /sbin/nologin --user-group node
 
 #EXPOSE 8888
 
