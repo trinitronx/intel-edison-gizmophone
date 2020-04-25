@@ -22,11 +22,11 @@ RUN install_packages libmraa1 libmraa-dev libmraa-java python-mraa python3-mraa 
 #    cd .. && rm -rf mraa
 
 # Verify & Unpack S6 Init overlay
-ADD https://github.com/just-containers/s6-overlay/releases/download/v1.22.1.0/s6-overlay-amd64.tar.gz /tmp/
-ADD https://github.com/just-containers/s6-overlay/releases/download/v1.22.1.0/s6-overlay-amd64.tar.gz.sig /tmp/
-RUN curl -Ls -o - https://keybase.io/justcontainers/key.asc | gpg --import && ( cd /tmp/ && gpg --trusted-key 0x2536CA16DF4FCDA2 --verify  s6-overlay-amd64.tar.gz.sig  s6-overlay-amd64.tar.gz ; exit $? )
+ADD https://github.com/just-containers/s6-overlay/releases/download/v1.22.1.0/s6-overlay-x86.tar.gz /tmp/
+ADD https://github.com/just-containers/s6-overlay/releases/download/v1.22.1.0/s6-overlay-x86.tar.gz.sig /tmp/
+RUN curl -Ls -o - https://keybase.io/justcontainers/key.asc | gpg --import && ( cd /tmp/ && gpg --trusted-key 0x2536CA16DF4FCDA2 --verify  s6-overlay-x86.tar.gz.sig  s6-overlay-x86.tar.gz ; exit $? )
 RUN mkdir -p /tmp/s6-overlay-root
-RUN tar -xzf /tmp/s6-overlay-amd64.tar.gz -C /tmp/s6-overlay-root/
+RUN tar -xzf /tmp/s6-overlay-x86.tar.gz -C /tmp/s6-overlay-root/
 
 # Workaround https://github.com/just-containers/s6-overlay#bin-and-sbin-are-symlinks
 RUN rsync -av --ignore-existing /tmp/s6-overlay-root/ /
