@@ -53,4 +53,5 @@ RUN chmod +x /usr/bin/entry.sh /usr/bin/cmd.sh
 USER root
 ENV container docker
 ENV S6_KEEP_ENV 1
+ENV UDEV on
 ENTRYPOINT ["/init"]
