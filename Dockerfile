@@ -37,7 +37,8 @@ RUN s6-rmrf /etc/s6/services/s6-fdholderd/down
 
 COPY docker/etc/udev/rules.d/* /etc/udev/rules.d/
 RUN /usr/sbin/adduser --system --group --gecos 'Node.js Daemon' --home /usr/src/app --shell /sbin/nologin node && \
-    /usr/sbin/usermod --append --groups i2c node
+    /usr/sbin/addgroup --system gpio && \
+    /usr/sbin/usermod --append --groups i2c,gpio node
 
 # Add app
 ADD . /usr/src/app/
