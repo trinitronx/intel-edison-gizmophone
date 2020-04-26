@@ -23,18 +23,25 @@ else {
     console.log('meaa version(' + version + ') is old - this code may not work');
 }
 
-process.on('SIGINT', handle('SIGINT'));
-process.on('SIGTERM', handle('SIGTERM'));
-process.on('SIGHUP', handle('SIGHUP'));
-
-useLcd();
-
 // Using a single function to handle multiple signals
-function handle(signal) {
+const exitHandler = function handle(signal) {
   console.log(`Received ${signal}`);
   console.log(`Exiting gracefully...`);
   process.exit(0);
 }
+
+process.on('SIGINT', exitHandler.bind(null,'SIGINT'));
+process.on('SIGTERM', exitHandler.bind(null,'SIGTERM'));
+process.on('SIGHUP', exitHandler.bind(null,'SIGHUP'));
+
+// process.on('SIGINT', exitHandler.bind('SIGINT'));
+// process.on('SIGTERM', exitHandler('SIGTERM'));
+// process.on('SIGHUP', exitHandler('SIGHUP'));
+
+
+
+useLcd();
+
 
 /**
  * Rotate through a color pallette and display the
