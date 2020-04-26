@@ -1,4 +1,0 @@
-#!/usr/bin/execlineb -P
-if { logutil-newfifo -m 0660 /var/run/s6/npm-debug-log-fifo }
-if { /bin/s6-ln -s /var/run/s6/npm-debug-log-fifo /usr/src/app/npm-debug.log }
-if { s6-envuidgid -B -- root:node s6-chown -U /var/run/s6/npm-debug-log-fifo }

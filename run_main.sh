@@ -1,4 +1,4 @@
 #!/bin/sh
 cd /usr/src/app/
 npm list
-npm start
+npm start --loglevel silent
