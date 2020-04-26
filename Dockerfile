@@ -6,7 +6,11 @@ FROM balenalib/intel-edison-ubuntu-node:6-xenial-build-20181029
 RUN install_packages python software-properties-common swig patch cmake build-essential git build-essential swig3.0 python-dev nodejs-dev cmake libjson-c-dev
 RUN sudo add-apt-repository ppa:mraa/mraa && \
     sudo apt-get update
-RUN install_packages libmraa1 libmraa-dev libmraa-java python-mraa python3-mraa node-mraa mraa-tools wget rsync gnupg2
+
+RUN install_packages libmraa1 libmraa-dev \
+                     libupm1 libupm-dev \
+                     mraa-tools \
+                     wget rsync gnupg2 psmisc lsof
 
 # This is madness... but doesn't work
 # https://github.com/eclipse/mraa/blob/master/docs/building.md#javascript-bindings-for-nodejs-700
