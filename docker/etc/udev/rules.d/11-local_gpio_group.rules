@@ -1,1 +1,2 @@
 KERNEL=="gpiochip[0-9]*", GROUP="gpio"
+SUBSYSTEM=="gpio", GROUP="gpio"
