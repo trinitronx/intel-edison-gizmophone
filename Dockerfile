@@ -36,12 +36,17 @@ RUN rsync -av --ignore-existing /tmp/s6-etc/ /etc/
 RUN s6-rmrf /etc/s6/services/s6-fdholderd/down
 
 COPY docker/etc/udev/rules.d/* /etc/udev/rules.d/
-RUN /usr/sbin/adduser --system --ingroup i2c --home /usr/src/app --shell /sbin/nologin node
+RUN /usr/sbin/adduser --system --group --gecos 'Node.js Daemon' --home /usr/src/app --shell /sbin/nologin node && \
+    /usr/sbin/usermod --append --groups i2c node
 
 # Add app
 ADD . /usr/src/app/
 RUN cd /usr/src/app && npm install && npm list
 RUN chmod +x /usr/src/app/run_main.sh
+
+# Backport udev setup from newer Balena image
+COPY docker/balena-backports/*.sh /usr/bin/
+RUN chmod +x /usr/bin/entry.sh /usr/bin/cmd.sh
 
 #EXPOSE 8888
 

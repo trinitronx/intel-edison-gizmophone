@@ -1,4 +1,4 @@
 #!/usr/bin/execlineb -P
 
 with-contenv
-/usr/bin/entry.sh
+/usr/bin/entry.sh /usr/bin/with-contenv /usr/bin/cmd.sh
