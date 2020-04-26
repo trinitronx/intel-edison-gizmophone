@@ -1,7 +1,7 @@
 {
   "name": "xdk-iot-i2c",
   "description": "",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "main.js",
   "engines": {
     "node": ">=0.10.0"
@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "q": "1.5.1",
-    "mraa": "1.9.0"
+    "mraa": "1.9.0",
+    "jsupm_servo": "1.0.2-src"
   }
 }
