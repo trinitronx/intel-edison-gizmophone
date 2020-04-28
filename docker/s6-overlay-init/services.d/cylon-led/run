@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv /bin/sh
+export HOME=/usr/src/app
+cd $HOME
+exec node cylon-processes/cylon-led.js
