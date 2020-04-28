@@ -1,3 +1,4 @@
 #!/usr/bin/with-contenv /bin/sh
 export HOME=/usr/src/app
-exec s6-setuidgid node /usr/src/app/run_main.sh
+cd $HOME
+exec node cylon-processes/cylon-led.js
