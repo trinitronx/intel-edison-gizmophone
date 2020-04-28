@@ -40,12 +40,15 @@ RUN rsync -av --ignore-existing /tmp/s6-etc/ /etc/
 RUN s6-rmrf /etc/s6/services/s6-fdholderd/down
 
 # Download, compile, install FluidSynth, & cleanup in one docker layer
-RUN curl -Ls -o - https://github.com/FluidSynth/fluidsynth/archive/v2.1.2.tar.gz | tar -C /tmp/ -xvf - && \
-    cd /tmp/fluidsynth-2.1.2 && \
-    ./configure && \
+RUN sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list && \
+    apt-get update && apt-get build-dep fluidsynth --no-install-recommends -y && \
+    curl -Ls -o - https://github.com/FluidSynth/fluidsynth/archive/v2.1.2.tar.gz | tar -C /tmp/ -xzvf - && \
+    cd /tmp/fluidsynth-2.1.2 && mkdir build && cd build/ && \
+    cmake .. && \
     make && make check && \
     make install && \
-    make clean && cd /tmp/ && rm -rf /tmp/fluidsynth-2.1.2/
+    make clean && cd /tmp/ && rm -rf /tmp/fluidsynth-2.1.2/ && \
+    apt-get autoremove -y
 
 COPY docker/etc/udev/rules.d/* /etc/udev/rules.d/
 RUN /usr/sbin/adduser --system --group --gecos 'Node.js Daemon' --home /usr/src/app --shell /sbin/nologin node && \
