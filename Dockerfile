@@ -10,6 +10,9 @@ RUN sudo add-apt-repository ppa:mraa/mraa && \
 RUN install_packages libmraa1 libmraa-dev \
                      libupm1 libupm-dev \
                      mraa-tools \
+                     alsa-base alsa-source \
+                     alsa-utils alsa-tools \
+                     fluid-soundfont-gm \
                      wget rsync gnupg2 psmisc lsof tree
 
 # This is madness... but doesn't work
