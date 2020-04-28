@@ -18,17 +18,21 @@ Cylon.robot({
   },
 
   devices: {
-    relay: { driver: 'relay', pin: 6, type: 'closed', connection: 'edison' }
+    button: { driver: 'button', pin: 4, connection: 'edison' },
+    led: { driver: 'led', pin: 13, connection: 'edison' }
   },
 
   work: function(my) {
-    every((1).second(), function() {
-      my.relay.toggle();
-      console.log("Relay: %j", 'toggled');
+    my.button.on('push', function() {
+      my.led.turnOn();
+      console.log("button on");
+    });
+    my.button.on('release', function() {
+      my.led.turnOff();
+      console.log("button off");
     });
   }
 }).start();
 
-//     button: { pin: 4, connection: 'edison' },
 
 Cylon.start();

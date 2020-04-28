@@ -1,3 +1,2 @@
-#!/bin/bash -x
-env
+#!/bin/bash
 echo UDEV=$UDEV
