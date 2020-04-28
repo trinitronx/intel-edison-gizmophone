@@ -12,7 +12,7 @@ RUN install_packages libmraa1 libmraa-dev \
                      mraa-tools \
                      alsa-base alsa-source \
                      alsa-utils alsa-tools \
-                     fluid-soundfont-gm \
+                     fluid-soundfont-gm fluid-soundfont-gs \
                      wget rsync gnupg2 psmisc lsof tree
 
 # This is madness... but doesn't work
