@@ -14,7 +14,14 @@ foreground {
   if { echo Installing kernel modules }
   if { tar -C ${TMPDIR}/ -xf /usr/src/app/kernel-modules/balena-intel-edison-2.31.5+rev1-v9.11.3-kernel-modules.tar.gz }
   if { tree ${TMPDIR} }
-  if { find ${TMPDIR} -type f -iname '*.ko' -exec insmod '{}' \; }
+  # Load modules in dependency order
+  # We cannot install to /lib/modules on Balena host FS, b/c it's ReadOnly
+  if { insmod ${TMPDIR}/lib/modules/4.16.0-edison-standard/extra/snd-rawmidi.ko }
+  if { insmod ${TMPDIR}/lib/modules/4.16.0-edison-standard/extra/snd-pcm.ko }
+  if { insmod ${TMPDIR}/lib/modules/4.16.0-edison-standard/extra/snd-hwdep.ko }
+  if { insmod ${TMPDIR}/lib/modules/4.16.0-edison-standard/extra/seq/snd-seq-midi-event.ko }
+  if { insmod ${TMPDIR}/lib/modules/4.16.0-edison-standard/extra/seq/snd-seq-midi.ko }
+  if { insmod ${TMPDIR}/lib/modules/4.16.0-edison-standard/extra/caiaq/snd-usb-caiaq.ko }
 }
 foreground {
   rm -rf ${TMPDIR}
