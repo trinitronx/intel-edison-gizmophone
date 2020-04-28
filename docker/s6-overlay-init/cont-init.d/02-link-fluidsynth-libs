@@ -1,0 +1,7 @@
+#!/usr/bin/execlineb -P
+# Sometimes balena built docker images
+# did not link libfluidsynth.so.2 properly
+# Re-run ldconfig to make sure it is
+foreground {
+  ldconfig
+}
