@@ -80,7 +80,7 @@ function rotateColors(display) {
  * upm library
  */
 function useLcd() {
-    var i2c = require('./i2c');
+    var i2c = require('./lib/i2c');
     var display = new i2c.LCD(0);
 
     display.setColor(0, 60, 255);
