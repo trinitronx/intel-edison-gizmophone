@@ -2,6 +2,7 @@ Intel® XDK Samples License Terms and Conditions
 ===============================================
 
 Copyright © 2014-2016, Intel Corporation. All rights reserved.
+Copyright © 2020, James Cuzella (@trinitronx) All rights reserved.
 
 This is a “BSD-3” license. <http://www.tldrlegal.com/l/bsd3>
 
