@@ -10,7 +10,7 @@ RUN sudo add-apt-repository ppa:mraa/mraa && \
 RUN install_packages libmraa1 libmraa-dev \
                      libupm1 libupm-dev \
                      mraa-tools \
-                     wget rsync gnupg2 psmisc lsof
+                     wget rsync gnupg2 psmisc lsof tree
 
 # This is madness... but doesn't work
 # https://github.com/eclipse/mraa/blob/master/docs/building.md#javascript-bindings-for-nodejs-700
@@ -38,6 +38,14 @@ COPY docker/s6-overlay-init/ /tmp/s6-etc/
 RUN rsync -av --ignore-existing /tmp/s6-etc/ /etc/
 # s6-fdholderd active by default
 RUN s6-rmrf /etc/s6/services/s6-fdholderd/down
+
+# Add Kernel modules for sound card: snd-usb-caiaq
+# Note: This container was built to work with Traktor Audio 2 version 1
+COPY kernel-modules/balena-intel-edison-2.31.5+rev1-v9.11.3-kernel-modules.tar.gz /tmp/
+RUN TMPDIR=$(mktemp -d -t snd-modules.XXXXXX) && \
+    tar -C $TMPDIR/ -xvf /tmp/balena-intel-edison-2.31.5+rev1-v9.11.3-kernel-modules.tar.gz && \
+    rsync -av --ignore-existing $TMPDIR/ / && \
+    rm -rf $TMPDIR/
 
 # Download, compile, install FluidSynth, & cleanup in one docker layer
 RUN sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list && \

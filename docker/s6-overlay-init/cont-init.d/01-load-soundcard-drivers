@@ -1,0 +1,21 @@
+#!/usr/bin/execlineb -P
+# Add Kernel modules for sound card: snd-usb-caiaq
+# Note: This container was built to work with Traktor Audio 2 version 1
+backtick -n TMPDIR { mktemp -d -t snd-modules.XXXXXX }
+multisubstitute {
+  importas TMPDIR TMPDIR
+}
+trap -x
+{
+  term { rm -rf ${TMPDIR} }
+  quit { rm -rf ${TMPDIR} }
+}
+foreground {
+  if { echo Installing kernel modules }
+  if { tar -C ${TMPDIR}/ -xf /usr/src/app/kernel-modules/balena-intel-edison-2.31.5+rev1-v9.11.3-kernel-modules.tar.gz }
+  if { tree ${TMPDIR} }
+  if { find ${TMPDIR} -type f -iname '*.ko' -exec insmod '{}' \; }
+}
+foreground {
+  rm -rf ${TMPDIR}
+}
