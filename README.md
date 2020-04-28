@@ -25,8 +25,8 @@ creates a queue driven execution engine for i2c devices.
 
 Important Sample App Files
 --------------------------
-* main.js
-* i2c.js
+* grove-lcd-main.js
+* lib/i2c.js
 * package.json
 
 Important Sample Project Files
