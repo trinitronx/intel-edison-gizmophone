@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv /bin/sh
+# Demo:
+cd /data/
+fluidsynth -s -a alsa -g 3 /usr/share/sounds/sf2/*.sf2  /data/Dmin\ Chord\ Progression.mid
