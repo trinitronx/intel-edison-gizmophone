@@ -22,6 +22,8 @@ foreground {
   if { insmod ${TMPDIR}/lib/modules/4.16.0-edison-standard/extra/seq/snd-seq-midi-event.ko }
   if { insmod ${TMPDIR}/lib/modules/4.16.0-edison-standard/extra/seq/snd-seq-midi.ko }
   if { insmod ${TMPDIR}/lib/modules/4.16.0-edison-standard/extra/caiaq/snd-usb-caiaq.ko }
+  if { insmod ${TMPDIR}/lib/modules/4.16.0-edison-standard/extra/usb/snd-usbmidi-lib.ko }
+  if { insmod ${TMPDIR}/lib/modules/4.16.0-edison-standard/extra/usb/snd-usb-audio.ko }
 }
 foreground {
   rm -rf ${TMPDIR}
